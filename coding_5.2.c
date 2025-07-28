@@ -1,17 +1,26 @@
-#include <stdio.h>
-int main() {
-    char name[30]; //ใช้ char array เพื่อเก็บชื่อ โดยจำนวนตัวอักษรต้องไม่เกิน30ตัว
-    int age; //ใช้ int เพื่อเก็บอายุ (เลขจำนวนเต็ม)
-    float height; //ใช้ float เพื่อเก็บส่วนสูง (หน่วยเป็นเซนติเมตร)
-   
-    char subject[30]; //ใช้ char array เพื่อเก็บชื่อวิชา โดยไม่เกิน30ตัวอักษร
-    float grade; //ใช้ float เพื่อเก็บเกรด (เลขทศนิยม)
-    char gradechar; //ใช้ char เพื่อเก็บเกรดในรูปแบบตัวอักษร เช่น'A' 'B'
+#include <stdio.h>       // นำเข้า libary Stdio.h (Starndard Input Output Header) มาใช้งานฟังก์ชั่น input,output
 
-    printf ("Enter your name , age ,height, subject, grade: ");      //กรอกข้อมูลส่วนบุคคล ชื่อ, อายุ, ส่วนสูง, วิชา, เกรดจากผู้ใช้
-    scanf ("%s %d %f %s %f", name, &age, &height, subject, &grade);   //อ่านข้อมูลที่ผู้ใช้ป้อนเข้ามา
+int main() {             // สร้างฟังก์ชั่นหลักของโปรแกรม เพื่อเป็นจุดเริ่มต้นการทำงานเมื่อรันโปรแกรม
+    char name[31];       // name เป็นชื่อที่จำกัดตัวอักษรทั้งหมด 30 ตัว
+    int age;             // age เป็นตัวแปรรับค่า อายุ เป็นจำนวนเต็ม
+    float height;        // height เป็นตัวแปรเก็บค่า ความสูง เป็นทศนิยม 1 ตำแหน่ง 
 
-    printf ("%c is %d years old %.1f cm tall, studies %s and has a grade of %.2f.\n", name[0], age, height, subject, grade);   //แสดงผลบรรทัดที่หนึ่งชื่อ, อายุ, ส่วนสูง, วิชา และเกรด
-    printf ("In subject %s, grade is %.2f which is symbolized as %c.\n", subject, grade, (grade >= 90) ? 'A' : (grade >= 80) ? 'B' : (grade >= 70) ? 'C' : (grade >= 60) ? 'D' : 'F'); //แสดงผลบรรทัดที่สองวิชา, เกรด และสัญลักษณ์เกรดตามเงื่อนไข
-   return 0; //คืนค่า 0 เพื่อบอกว่าโปรแกรมทำงานสำเร็จ
-   }
+    char subject;        // Subject เป็นตัวแปรรับค่า วิชา เป็นอักษรตัวเดียว
+    float grade;         // grade เป็นตัวแปรรับค่า เกรด เช่น 2.50 3.50 4.00
+    char symbol;         // สร้างตัวแปร Symbol เพื่อมาเก็บค่า เกรดแบบไม่มีประจุ โดยใช้ char เนื่องจากค่าจะประกาศในตัวแปรเป็นตัวอักษรตัวเดียว
+
+    char buffer[100];    // สร้างที่พักข้อมมูลชั่วคราวใน Ram สำหรับเก็บข้อความที่ input มาโดย Keyborad ขนาด 100 ตัวอักษร
+
+    printf("Enter name, age, height: ");                        // แสดงผลข้อมูลสำหรับกรอกข้อมูล ชื่อ อายุ ส่วนสูง
+    fgets(buffer, sizeof(buffer), stdin);                       // ใช้ fgets เพื่ออ้านข้อมูลจาก Keyborad และนำไปเก็บไว้ใน buffer
+    sscanf(buffer, "%s %d %f", name, &age, &height);            // รับ ชื่อ(แบบ string ขนาด 30 ตัวอักษร), อายุ(เป็นเลขจำนวนเต็ม), ส่วนสูง(เป็นทศนิยม 1 ตำแหน่ง)
+
+    printf("Enter subject, grade, symbol: ");                   // แสดงข้อความเพื่อให้กรอกข้อมูลของ ตัวอักษรตัวแรกของชื่อวิชา, เกรด, เกดรแบบไม่มีประจุ
+    fgets(buffer, sizeof(buffer), stdin);                       // ใช้ fgets เพื่ออ้านข้อมูลจาก Keyborad และนำไปเก็บไว้ใน buffer
+    sscanf(buffer, "%c %f %c", &subject, &grade, &symbol);      // รับ ชื่อวิชา(ตัวอักษรพิมพ์ใหญ่ตัวแรกของของวิชา), เกรดที่ได้(เป็นทศนิยม 2 ตำแหน่ง), ตัวอักษร(1 ตัว แทนเกรดแบบไม่มีประจุ)
+
+    printf("%c is %d years old and %.1f centimeters tall.\n", name[0], age, height);                           // แสดงผลลัพธ์ของค่า ชื่อ, อายุ, ส่วนสูง
+    printf("In subject %c, %c got %.2f which is symbolized as '%c'.\n", subject, name[0], grade, symbol);   // แสดงผลลัพธ์ของค่า ชื่อวิชา, ตัวอักษรตัวแรกของชื่อ, เกรดที่ได้, เกรดแบบไม่มีประจุ
+
+    return 0;           // ทำการ reset ค่าของ code เพื่อสิ้นสุดกระบวนการ
+}
